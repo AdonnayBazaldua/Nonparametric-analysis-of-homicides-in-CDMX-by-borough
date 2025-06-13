@@ -1,0 +1,143 @@
+---
+title: "Depuracion base de datos"
+author: "Adonnay Bazaldúa"
+date: "2025-06-03"
+output: html_document
+---
+
+
+```{r}
+df = read.csv("/home/adonnay_bazaldua/Documentos/GitHub/Proyectos-Don-Mike/databases/homicidios_final.csv", encoding = "UTF-8")
+head(df, 13)
+
+print(nrow(df))
+n = names(df)
+n
+print(dim(df))
+sum(df$anio_inicio == 2016)
+
+```
+
+
+```{r}
+homicidios_df=df[grepl("HOMICIDIO", df$delito, ignore.case = TRUE), ]
+
+print(nrow(homicidios_df))
+
+head(homicidios_df$delito, 24)
+```
+
+
+
+```{r}
+write.csv(homicidios_df, "homicidios_cdmx.csv", row.names = FALSE)
+
+
+print(nrow(homicidios_df))
+print("tipos de homicidio en la cdmx:")
+print(table(homicidios_df$delito))
+
+```
+
+
+```{r}
+#Preliminares
+#require(pacman)
+library("tidyverse")
+library("sf")
+library("sp")
+library("spdep")
+library("tmap")
+library("spatialreg")
+library("leaflet")
+library("raster")
+library("geodata")
+library("cowplot")
+library("ggspatial")
+library("extrafont")
+library("readxl")
+library("RColorBrewer")
+library("classInt")
+library("xtable")
+library("kableExtra")
+library("paletteer")
+library("ggthemes")
+```
+
+```{r}
+homicidios_df = read.csv("/home/adonnay_bazaldua/Documentos/SEMESTRE VI/Estadistica espacial II/homicidios_filtrados.csv", encoding = "UTF-8")
+head(df, 13)
+```
+
+
+```{r message=FALSE, warning=FALSE}
+# Importando la información espacial
+colonias = st_read(dsn ="/home/adonnay_bazaldua/Descargas/coloniascdmx/colonias_iecm.shp")
+head(colonias, 13)
+```
+
+```{r}
+st_is_valid(colonias)
+```
+
+
+```{r message=FALSE}
+names(colonias)[names(colonias) == "NOMUT"] <- "colonia_hecho"
+base=colonias %>% left_join(homicidios_df, by="colonia_hecho")
+#base=base[,-4]
+#names(base)[4]="NOMGEO"
+View(base)
+```
+
+
+```{r}
+#Mapa coroplético
+
+mapa_rez=ggplot(data=base)+geom_sf(aes(fill=delito))+
+  scale_fill_distiller(palette = "YlOrBr",
+                       direction = 1)+
+  labs(title = "Homicidios por colonia en la Ciudad de Mexico", 
+       caption = "Fuente: Elaboración propia.",
+       fill="Porcentaje")+
+  annotation_scale() +
+  annotation_north_arrow(location='tr')+
+  theme_bw()
+mapa_rez
+```
+```{r}
+library(ggplot2)
+library(sf)
+library(ggspatial)
+
+# Mapa con fill categórico
+mapa_rez <- ggplot(data = base) +
+  geom_sf(aes(fill = delito), color = NA) +  # 'color = NA' para quitar bordes internos
+  scale_fill_brewer(palette = "Paired", na.value = "grey90") +  # Paleta adecuada para factores
+  labs(
+    title = "Homicidios por colonia en la Ciudad de México",
+    caption = "Fuente: Elaboración propia.",
+    fill = "Tipo de homicidio"
+  ) +
+  annotation_scale(location = "bl", width_hint = 0.4) +
+  annotation_north_arrow(location = "tr", which_north = "true",
+                         style = north_arrow_fancy_orienteering) +
+  theme_bw()
+
+mapa_rez
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
