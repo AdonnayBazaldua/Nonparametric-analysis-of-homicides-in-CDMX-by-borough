@@ -1,0 +1,10 @@
+name: mic
+channels:
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - python=3.10
+  - cuda-toolkit=12.1
+  - cudnn=8.9
+prefix: /home/adonnay_bazaldua/miniconda3/envs/mic

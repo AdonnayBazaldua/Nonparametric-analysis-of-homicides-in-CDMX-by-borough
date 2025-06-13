@@ -1,0 +1,37 @@
+# Análisis de datos
+pandas
+numpy
+openpyxl
+xlrd
+
+# Visualización
+matplotlib
+seaborn
+plotly
+
+# Estadística y análisis robusto
+scipy
+statsmodels
+scikit-posthocs
+pingouin
+
+# Machine Learning clásico
+scikit-learn
+xgboost
+lightgbm
+catboost
+
+# Deep Learning
+tensorflow
+keras
+
+# Series de tiempo avanzadas
+neuralforecast
+pmdarima
+prophet
+
+# Otros
+jupyter
+notebook
+ipython
+tqdm
