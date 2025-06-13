@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
-from scipy.stats import (mannwhitneyu, kruskal, friedmanchisquare, 
+from scipy.stats import (mannwhitneyu, kruskal, friedmanchisquare,
                         spearmanr, kendalltau, shapiro, levene, jarque_bera)
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
@@ -39,41 +39,38 @@ class AnalisisNoParametrico:
         columnas_faltantes = [col for col in columnas_requeridas if col not in df.columns]
         
         if columnas_faltantes:
-            print(f"⚠️  Columnas disponibles: {list(df.columns)}")
-            raise ValueError(f"❌ Faltan columnas: {columnas_faltantes}")
+            print(f"Columnas disponibles: {list(df.columns)}")
+            raise ValueError(f"Faltan columnas: {columnas_faltantes}")
         
         # Limpiar y convertir datos
         df = self._limpiar_datos(df)
         return df
     
     def _limpiar_datos(self, df):
-        """Limpia y prepara los datos para el análisis."""
         df_clean = df.copy()
-        
-        # Eliminar valores nulos
         antes = len(df_clean)
         df_clean = df_clean.dropna(subset=['anio_inicio', 'alcaldia_hecho', 'total_delitos'])
         despues = len(df_clean)
         if antes != despues:
-            print(f"⚠️  Se eliminaron {antes-despues} filas con valores nulos")
+            print(f"Se eliminaron {antes-despues} valores nulos")
         
         # Convertir tipos de datos
         df_clean["anio_inicio"] = pd.to_numeric(df_clean["anio_inicio"], errors='coerce').astype(int)
         df_clean["alcaldia_hecho"] = df_clean["alcaldia_hecho"].astype(str).str.upper().str.strip()
         df_clean["total_delitos"] = pd.to_numeric(df_clean["total_delitos"], errors='coerce').astype(int)
         
-        # Eliminar valores negativos
         df_clean = df_clean[df_clean["total_delitos"] >= 0]
         
-        # Filtrar rango de años (2016-2024)
+        #rango de interes (2016-2024)
+        #se excluye el 2025 porque a pesar de disponer de datos solo se cuenta con un mes (enero)
         antes_filtro = len(df_clean)
         df_clean = df_clean[(df_clean["anio_inicio"] >= 2016) & (df_clean["anio_inicio"] <= 2024)]
         despues_filtro = len(df_clean)
         if antes_filtro != despues_filtro:
-            print(f"⚠️  Se eliminaron {antes_filtro-despues_filtro} registros fuera del rango 2016-2024")
+            print(f"Se eliminaron {antes_filtro-despues_filtro} registros fuera del rango 2016-2024")
         
         # Mostrar estadísticas básicas
-        print("\n📋 RESUMEN DE DATOS:")
+        print("\n Análisis descriptivo:")
         print(f"   • Años: {df_clean['anio_inicio'].min()} - {df_clean['anio_inicio'].max()}")
         print(f"   • Alcaldías: {df_clean['alcaldia_hecho'].nunique()}")
         print(f"   • Total observaciones: {len(df_clean)}")
@@ -82,19 +79,16 @@ class AnalisisNoParametrico:
         return df_clean
     
     def analisis_exploratorio(self):
-        """Realiza análisis exploratorio de datos."""
-        print("\n🔍 ANÁLISIS EXPLORATORIO")
-        print("=" * 50)
+        print("\n Análisis exploratorio")
+        print("=" * 70)
         
-        # Estadísticas descriptivas
-        print("\n📊 Estadísticas por Alcaldía:")
+        print("\n Estadísticas por Alcaldía:")
         stats_alcaldia = self.df.groupby('alcaldia_hecho')['total_delitos'].agg([
-            'count', 'mean', 'median', 'std', 'min', 'max', 'skew'
+            'count', 'mean', 'median', 'std', 'min', 'max', 'sum'
         ]).round(2)
         print(stats_alcaldia)
         
-        # Estadísticas por año
-        print("\n📊 Estadísticas por Año:")
+        print("\n Estadísticas por Año:")
         stats_anio = self.df.groupby('anio_inicio')['total_delitos'].agg([
             'count', 'sum', 'mean', 'median', 'std'
         ]).round(2)
@@ -103,12 +97,11 @@ class AnalisisNoParametrico:
         return stats_alcaldia, stats_anio
     
     def verificar_supuestos(self):
-        """Verifica supuestos de normalidad y homocedasticidad."""
-        print("\n🧪 VERIFICACIÓN DE SUPUESTOS")
-        print("=" * 50)
+        print("\n VERIFICACIÓN DE SUPUESTOS (normalidad y heterocedasticidad)")
+        print("=" * 70)
         
         # Test de normalidad por alcaldía
-        print("\n🔬 Tests de Normalidad por Alcaldía:")
+        print("\n Prueba de normalidad por Alcaldía:")
         normalidad_resultados = {}
         
         for alcaldia in self.df['alcaldia_hecho'].unique():
@@ -136,14 +129,14 @@ class AnalisisNoParametrico:
         
         if len(grupos) >= 2:
             stat_levene, p_levene = levene(*grupos)
-            print(f"\n🔬 Test de Levene (homocedasticidad): p={p_levene:.6f} "
+            print(f"\n Prueba de Levene (homocedasticidad): p={p_levene:.6f} "
                   f"{'✅' if p_levene > 0.05 else '❌'}")
             
             # Justificación para métodos no paramétricos
             no_normal = sum(1 for r in normalidad_resultados.values() if not r['normal'])
             total_grupos = len(normalidad_resultados)
             
-            print(f"\n📝 JUSTIFICACIÓN MÉTODOS NO PARAMÉTRICOS:")
+            print(f"\n JUSTIFICACIÓN MÉTODOS NO PARAMÉTRICOS:")
             print(f"   • {no_normal}/{total_grupos} grupos no siguen distribución normal")
             print(f"   • Homocedasticidad: {'No se cumple' if p_levene <= 0.05 else 'Se cumple'}")
             print("   ✅ Métodos no paramétricos son apropiados")
@@ -151,8 +144,7 @@ class AnalisisNoParametrico:
         return normalidad_resultados
     
     def pruebas_comparacion(self):
-        """Realiza pruebas de comparación no paramétricas."""
-        print("\n🧪 PRUEBAS DE COMPARACIÓN NO PARAMÉTRICAS")
+        print("\n PRUEBAS DE COMPARACIÓN NO PARAMÉTRICAS")
         print("=" * 50)
         
         # Kruskal-Wallis
@@ -163,7 +155,7 @@ class AnalisisNoParametrico:
         
         if len(grupos) >= 2:
             h_stat, p_kruskal = kruskal(*grupos)
-            print(f"\n🔬 Prueba de Kruskal-Wallis:")
+            print(f"\n Kruskal-Wallis:")
             print(f"   H = {h_stat:.4f}")
             print(f"   p-valor = {p_kruskal:.6f}")
             print(f"   Interpretación: {'Hay diferencias significativas' if p_kruskal < 0.05 else 'No hay diferencias significativas'}")
@@ -176,14 +168,13 @@ class AnalisisNoParametrico:
             
             # Comparaciones post-hoc si es significativo
             if p_kruskal < 0.05:
-                print(f"\n🔍 Comparaciones Post-hoc (Mann-Whitney):")
+                print(f"\n Comparaciones Post-hoc (Mann-Whitney):")
                 self._comparaciones_posthoc(nombres_grupos)
         
         # Friedman (si hay datos longitudinales)
         self._prueba_friedman()
         
     def _comparaciones_posthoc(self, nombres_grupos):
-        """Realiza comparaciones post-hoc entre pares de grupos."""
         from itertools import combinations
         
         comparaciones = []
@@ -458,10 +449,11 @@ class AnalisisNoParametrico:
                   f"({'significativa' if corr['spearman_p'] < 0.05 else 'no significativa'})")
         
         print(f"\n✅ ANÁLISIS COMPLETADO EXITOSAMENTE")
-        
+
+    #ejecución del pipeline completo    
     def ejecutar_analisis_completo(self):
-        """Ejecuta todo el pipeline de análisis."""
-        print("🚀 INICIANDO ANÁLISIS NO PARAMÉTRICO COMPLETO")
+        print("=" * 70)
+        print("ANÁLISIS NO PARAMÉTRICO")
         print("=" * 70)
         
         try:
@@ -475,11 +467,11 @@ class AnalisisNoParametrico:
             self.generar_reporte_completo()
             
         except Exception as e:
-            print(f"❌ Error durante el análisis: {str(e)}")
+            print(f" Error durante el análisis: {str(e)}")
             raise
 
 # ================================
-# 🎯 EJECUCIÓN PRINCIPAL
+# EJECUCIÓN PRINCIPAL
 # ================================
 
 if __name__ == "__main__":
