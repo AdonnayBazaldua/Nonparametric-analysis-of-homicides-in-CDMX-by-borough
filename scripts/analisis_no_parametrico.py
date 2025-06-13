@@ -1,7 +1,7 @@
-# 📊 Análisis No Paramétrico de Homicidios en CDMX - VERSIÓN MEJORADA
+# Análisis No Paramétrico de Homicidios en CDMX por Alcaldía y Año
 # ===============================================================================
-# Este script realiza un análisis estadístico no paramétrico robusto de homicidios
-# por alcaldía y año, incluyendo validaciones, pruebas de supuestos y reportes detallados.
+# Este script presenta un análisis estadístico no paramétrico de homicidios
+# por alcaldía y año.
 
 import pandas as pd
 import numpy as np
@@ -16,29 +16,25 @@ from sklearn.utils import resample
 import warnings
 warnings.filterwarnings('ignore')
 
-# Configuración de visualización
 plt.style.use('seaborn-v0_8')
 sns.set_palette("husl")
 
 class AnalisisNoParametrico:
-    """Clase para realizar análisis estadístico no paramétrico de homicidios."""
-    
+        
     def __init__(self, archivo_datos):
-        """Inicializa el análisis cargando y validando los datos."""
         self.df = self._cargar_y_validar_datos(archivo_datos)
         self.resultados = {}
         
     def _cargar_y_validar_datos(self, archivo):
-        """Carga y valida la estructura de los datos."""
         try:
             df = pd.read_csv(archivo)
-            print(f"✅ Datos cargados exitosamente: {df.shape[0]} filas, {df.shape[1]} columnas")
+            print(f"Datos: {df.shape[0]} filas, {df.shape[1]} columnas")
         except FileNotFoundError:
-            raise FileNotFoundError(f"❌ No se encontró el archivo: {archivo}")
+            raise FileNotFoundError(f"no hya archivo: {archivo}")
         except Exception as e:
-            raise Exception(f"❌ Error al cargar datos: {str(e)}")
+            raise Exception(f"error al cargar datos: {str(e)}")
         
-        # Validar columnas esperadas
+        #columnas esperadas
         columnas_requeridas = ['anio_inicio', 'alcaldia_hecho', 'total_delitos']
         columnas_faltantes = [col for col in columnas_requeridas if col not in df.columns]
         
