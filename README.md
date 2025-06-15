@@ -40,7 +40,7 @@ Referencias
 
 
 
-#Introducción#
+#Introducción
 
 El análisis de datos de homicidios presenta desafíos particulares: distribuciones asimétricas, heterogeneidad entre regiones y posibles valores atípicos. Los métodos paramétricos tradicionales (ANOVA, t-test) requieren supuestos de normalidad y homocedasticidad que pueden no cumplirse en estos datos. Por ello, adoptamos un enfoque no paramétrico que ofrece mayor robustez ante estas características.
 
@@ -58,15 +58,23 @@ $$W = \frac{(\sum_{i=1}^{n} a_i x_{(i)})^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$
 
 Donde:
 
-$x_{(i)}$ son los valores de la muestra ordenados
-$a_i$ son constantes generadas a partir de los valores esperados, varianzas y covarianzas de las estadísticas de orden de una muestra de tamaño n de una distribución normal
-$\bar{x}$ es la media muestral
+  ° $x_{(i)}$ son los valores de la muestra ordenados
+  ° $a_i$ son constantes generadas a partir de los valores esperados, varianzas y covarianzas de las estadísticas de orden de una muestra de tamaño n de una distribución normal
+  ° $\bar{x}$ es la media muestral
+
+
 Interpretación
-W cercano a 1 indica normalidad
-Valores p < 0.05 rechazan la hipótesis nula de normalidad
-Potencia: Alta para n < 50, moderada para muestras mayores
+
+  W cercano a 1 indica normalidad
+  Valores p < 0.05 rechazan la hipótesis nula de normalidad
+  Potencia: Alta para n < 50, moderada para muestras mayores
+
 Implementación en el Código
+
+
+
 Test de Jarque-Bera
+
 El test de Jarque-Bera evalúa la normalidad basándose en la asimetría y curtosis de la distribución.
 
 Fundamento Matemático
@@ -76,17 +84,25 @@ $$JB = \frac{n}{6} \left( S^2 + \frac{(K-3)^2}{4} \right)$$
 
 Donde:
 
-n es el tamaño de la muestra
-S es la asimetría muestral: $S = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^3$
-K es la curtosis muestral: $K = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^4$
-σ es la desviación estándar muestral
+  ° n es el tamaño de la muestra
+  ° S es la asimetría muestral: $S = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^3$
+  ° K es la curtosis muestral: $K = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^4$
+  ° σ es la desviación estándar muestral
+
+
 Bajo la hipótesis nula de normalidad, JB sigue asintóticamente una distribución chi-cuadrado con 2 grados de libertad.
 
 Interpretación
-Valores p < 0.05 rechazan la hipótesis nula de normalidad
-Ventaja: Sensible tanto a la asimetría como a la curtosis no normal
+  Valores p < 0.05 rechazan la hipótesis nula de normalidad
+  Ventaja: Sensible tanto a la asimetría como a la curtosis no normal
+
+
 Implementación en el Código
+
+
+
 Prueba de Homocedasticidad
+
 Test de Levene
 El test de Levene evalúa la igualdad de varianzas entre dos o más grupos.
 
@@ -97,19 +113,28 @@ $$W = \frac{(N-k)}{(k-1)} \frac{\sum_{i=1}^{k} n_i (Z_{i.} - Z_{..})^2}{\sum_{i=
 
 Donde:
 
-$N$ es el número total de observaciones
-$k$ es el número de grupos
-$n_i$ es el número de observaciones en el grupo i
-$Z_{ij} = |x_{ij} - \bar{x}_i|$ (distancia absoluta desde la media del grupo)
-$Z_{i.}$ es la media de $Z_{ij}$ para el grupo i
-$Z_{..}$ es la media global de $Z_{ij}$
+  ° $N$ es el número total de observaciones
+  ° $k$ es el número de grupos
+  ° $n_i$ es el número de observaciones en el grupo i
+  ° $Z_{ij} = |x_{ij} - \bar{x}_i|$ (distancia absoluta desde la media del grupo)
+  ° $Z_{i.}$ es la media de $Z_{ij}$ para el grupo i
+  ° $Z_{..}$ es la media global de $Z_{ij}$
+
+
 Interpretación
-W se distribuye aproximadamente como F con parámetros k-1 y N-k
-Valores p < 0.05 rechazan la hipótesis nula de homogeneidad de varianzas
-Ventaja: Más robusto que el test de Bartlett ante desviaciones de normalidad
+  W se distribuye aproximadamente como F con parámetros k-1 y N-k
+  Valores p < 0.05 rechazan la hipótesis nula de homogeneidad de varianzas
+  Ventaja: Más robusto que el test de Bartlett ante desviaciones de normalidad
+
+
 Implementación en el Código
-Pruebas de Comparación No Paramétricas
+
+
+PRUEBAS NO PARAMETRICAS
+
+
 Test de Kruskal-Wallis
+
 El test de Kruskal-Wallis es la alternativa no paramétrica al ANOVA de una vía, evaluando si muestras independientes provienen de la misma distribución.
 
 Fundamento Matemático
@@ -119,16 +144,22 @@ $$H = \frac{12}{N(N+1)} \sum_{i=1}^{k} \frac{R_i^2}{n_i} - 3(N+1)$$
 
 Donde:
 
-N es el número total de observaciones
-k es el número de grupos
-$n_i$ es el número de observaciones en el grupo i
-$R_i$ es la suma de los rangos en el grupo i
+  ° N es el número total de observaciones
+  ° k es el número de grupos
+  ° $n_i$ es el número de observaciones en el grupo i
+  ° $R_i$ es la suma de los rangos en el grupo i
+
 Bajo la hipótesis nula, H se aproxima a una distribución chi-cuadrado con k-1 grados de libertad.
 
 Interpretación
-Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-No requiere normalidad, pero asume que las distribuciones tienen formas similares
+  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
+  No requiere normalidad, pero asume que las distribuciones tienen formas similares
+
+
 Implementación en el Código
+
+
+
 Prueba U de Mann-Whitney
 La prueba U de Mann-Whitney compara dos muestras independientes sin asumir normalidad, utilizada aquí para comparaciones post-hoc después de Kruskal-Wallis.
 
@@ -143,14 +174,19 @@ $$U' = n_1 n_2 + \frac{n_2(n_2+1)}{2} - R_2$$
 
 Donde:
 
-$n_1$ y $n_2$ son los tamaños de las dos muestras
-$R_1$ es la suma de rangos para la primera muestra
-$R_2$ es la suma de rangos para la segunda muestra
+  ° $n_1$ y $n_2$ son los tamaños de las dos muestras
+  ° $R_1$ es la suma de rangos para la primera muestra
+  ° $R_2$ es la suma de rangos para la segunda muestra
+
 Interpretación
-Para muestras grandes, U se aproxima a una distribución normal
-Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-Ventaja: Detecta diferencias en las ubicaciones (medianas) de las distribuciones
+  Para muestras grandes, U se aproxima a una distribución normal
+  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
+  Ventaja: Detecta diferencias en las ubicaciones (medianas) de las distribuciones
+
+
 Implementación en el Código
+
+
 Test de Friedman
 El test de Friedman es una extensión no paramétrica del ANOVA de medidas repetidas para datos ordinales o que no cumplen normalidad.
 
@@ -161,15 +197,23 @@ $$\chi^2_r = \frac{12}{nk(k+1)} \sum_{j=1}^{k} R_j^2 - 3n(k+1)$$
 
 Donde:
 
-n es el número de bloques (sujetos o, en este caso, años)
-k es el número de tratamientos (alcaldías)
-$R_j$ es la suma de rangos para el tratamiento j
+  
+  ° n es el número de bloques (sujetos o, en este caso, años)
+  ° k es el número de tratamientos (alcaldías)
+  ° $R_j$ es la suma de rangos para el tratamiento j
+
 Interpretación
-Bajo la hipótesis nula, $\chi^2_r$ se distribuye aproximadamente como chi-cuadrado con k-1 grados de libertad
-Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-Aplicación: Evalúa si hay diferencias en las tendencias temporales entre alcaldías
+  Bajo la hipótesis nula, $\chi^2_r$ se distribuye aproximadamente como chi-cuadrado con k-1 grados de libertad
+  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
+  Aplicación: Evalúa si hay diferencias en las tendencias temporales entre alcaldías
+
+
 Implementación en el Código
+
+
+
 Análisis de Correlaciones No Paramétricas
+
 Correlación de Spearman
 La correlación de Spearman (ρ) mide la fuerza y dirección de la asociación monotónica entre dos variables, sin asumir linealidad o normalidad.
 
@@ -180,14 +224,21 @@ $$\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}$$
 
 Donde:
 
-$d_i$ es la diferencia entre los rangos correspondientes de las observaciones
-n es el número de pares de observaciones
+  ° $d_i$ es la diferencia entre los rangos correspondientes de las observaciones
+  ° n es el número de pares de observaciones
+
 Interpretación
-ρ varía entre -1 (correlación negativa perfecta) y 1 (correlación positiva perfecta)
-ρ = 0 indica ausencia de correlación monotónica
-Ventaja: Detecta relaciones no lineales pero monotónicas
+  ρ varía entre -1 (correlación negativa perfecta) y 1 (correlación positiva perfecta)
+  ρ = 0 indica ausencia de correlación monotónica
+  Ventaja: Detecta relaciones no lineales pero monotónicas
+
+
 Implementación en el Código
+
+
+
 Correlación de Kendall
+
 La correlación de Kendall (τ) mide la asociación ordinal entre dos variables, basándose en la concordancia y discordancia de pares.
 
 Fundamento Matemático
@@ -197,17 +248,24 @@ $$\tau = \frac{n_c - n_d}{\sqrt{(n_0 - n_1)(n_0 - n_2)}}$$
 
 Donde:
 
-$n_c$ es el número de pares concordantes
-$n_d$ es el número de pares discordantes
-$n_0 = n(n-1)/2$
-$n_1$ es el número de pares empatados en la primera variable
-$n_2$ es el número de pares empatados en la segunda variable
+  ° $n_c$ es el número de pares concordantes
+  ° $n_d$ es el número de pares discordantes
+  ° $n_0 = n(n-1)/2$
+  ° $n_1$ es el número de pares empatados en la primera variable
+  ° $n_2$ es el número de pares empatados en la segunda variable
+
 Interpretación
-τ varía entre -1 (inversamente ordenados) y 1 (igualmente ordenados)
-τ = 0 indica independencia
-Ventaja: Menos sensible a valores atípicos que Spearman
+  τ varía entre -1 (inversamente ordenados) y 1 (igualmente ordenados)
+  τ = 0 indica independencia
+  Ventaja: Menos sensible a valores atípicos que Spearman
+
+
 Implementación en el Código
+
+
+
 Análisis de Tendencias
+
 LOWESS (Locally Weighted Scatterplot Smoothing)
 LOWESS es una técnica de regresión no paramétrica que ajusta modelos simples a subconjuntos locales de datos.
 
@@ -218,12 +276,18 @@ Selecciona los k puntos más cercanos a $x_i$ (donde k = frac * n)
 Asigna pesos $w_j$ a cada punto usando la función tricúbica: $$w_j = \left(1 - \left|\frac{x_j - x_i}{d_m}\right|^3\right)^3$$ donde $d_m$ es la distancia del punto más lejano en el vecindario
 Ajusta una regresión ponderada usando los pesos $w_j$
 El valor ajustado $\hat{y}_i$ es el valor predicho por la regresión en $x_i$
+
 Interpretación
-Captura patrones no lineales y tendencias locales
-El parámetro frac controla el grado de suavizado (más alto = más suave)
+  Captura patrones no lineales y tendencias locales
+  El parámetro frac controla el grado de suavizado (más alto = más suave)
 Ventaja: Robustez ante valores atípicos y flexibilidad para modelar relaciones complejas
+
+
 Implementación en el Código
+
+
 Métodos de Remuestreo
+
 Bootstrap para Intervalos de Confianza
 El bootstrap es una técnica de remuestreo que permite estimar la distribución muestral de un estadístico sin asumir normalidad.
 
@@ -238,11 +302,16 @@ Límite superior: percentil 1-α/2 de θ*
 donde α = 1 - nivel de confianza (ej. α = 0.05 para IC 95%)
 
 Interpretación
-Proporciona estimaciones robustas de la incertidumbre
-No requiere supuestos distribucionales
+  Proporciona estimaciones robustas de la incertidumbre
+  No requiere supuestos distribucionales
 Ventaja: Aplicable a cualquier estadístico, incluso con muestras pequeñas
+
+
 Implementación en el Código
+
+
 Justificación del Enfoque No Paramétrico
+
 La elección de métodos no paramétricos en este análisis se basa en una verificación rigurosa de supuestos:
 
 Normalidad: Las pruebas de Shapiro-Wilk y Jarque-Bera evalúan si los datos de homicidios por alcaldía siguen una distribución normal.
