@@ -168,7 +168,7 @@ class AnalisisNoParametrico:
             
             # Comparaciones post-hoc si es significativo
             if p_kruskal < 0.05:
-                print(f"\n Comparaciones Post-hoc (Mann-Whitney):")
+                print(f"\n Comparaciones Mann-Whitney:")
                 self._comparaciones_posthoc(nombres_grupos)
         
         # Friedman (si hay datos longitudinales)
@@ -199,7 +199,7 @@ class AnalisisNoParametrico:
         print(f"   Total comparaciones: {len(comparaciones)}")
         print(f"   Significativas (p<0.05): {len(comparaciones_sig)}")
         
-        for comp in comparaciones_sig[:5]:  # Top 5
+        for comp in comparaciones_sig[:10]:  
             print(f"   {comp['grupo1']} vs {comp['grupo2']}: "
                   f"U={comp['u_statistic']:.1f}, p={comp['p_valor']:.4f} ⭐")
     
@@ -213,7 +213,7 @@ class AnalisisNoParametrico:
                 columnas = [pivot[col] for col in pivot.columns]
                 chi2_stat, p_friedman = friedmanchisquare(*columnas)
                 
-                print(f"\n🔬 Prueba de Friedman (tendencias temporales):")
+                print(f"\n Prueba de Friedman (tendencias temporales):")
                 print(f"   Chi² = {chi2_stat:.4f}")
                 print(f"   p-valor = {p_friedman:.6f}")
                 print(f"   Interpretación: {'Hay diferencias en tendencias temporales' if p_friedman < 0.05 else 'No hay diferencias en tendencias temporales'}")
@@ -224,18 +224,18 @@ class AnalisisNoParametrico:
                     'significativo': p_friedman < 0.05
                 }
         except Exception as e:
-            print(f"⚠️  No se pudo realizar prueba de Friedman: {str(e)}")
+            print(f" fallo la prueba: {str(e)}")
     
     def analisis_correlacion(self):
         """Analiza correlaciones no paramétricas."""
-        print("\n📈 ANÁLISIS DE CORRELACIONES NO PARAMÉTRICAS")
-        print("=" * 50)
+        print("\n ANÁLISIS DE CORRELACIONES NO PARAMÉTRICAS")
+        print("=" * 70)
         
         # Correlación general año-homicidios
         rho_spearman, p_spearman = spearmanr(self.df["anio_inicio"], self.df["total_delitos"])
         tau_kendall, p_kendall = kendalltau(self.df["anio_inicio"], self.df["total_delitos"])
         
-        print(f"\n🔬 Correlación Temporal (Año vs Total Homicidios):")
+        print(f"\n Correlación Temporal (Año vs Total Homicidios):")
         print(f"   Spearman ρ = {rho_spearman:.4f}, p = {p_spearman:.6f}")
         print(f"   Kendall τ = {tau_kendall:.4f}, p = {p_kendall:.6f}")
         
@@ -259,8 +259,8 @@ class AnalisisNoParametrico:
     
     def analisis_tendencias(self, frac=0.4):
         """Análisis de tendencias con LOWESS."""
-        print("\n📊 ANÁLISIS DE TENDENCIAS")
-        print("=" * 50)
+        print("\n ANÁLISIS DE TENDENCIAS")
+        print("=" * 70)
         
         # Agregación por año
         data_agg = self.df.groupby("anio_inicio")["total_delitos"].agg(['sum', 'mean', 'count']).reset_index()
@@ -299,14 +299,13 @@ class AnalisisNoParametrico:
         tendencia_final = suavizado[-1, 1]
         cambio_relativo = ((tendencia_final - tendencia_inicial) / tendencia_inicial) * 100
         
-        print(f"📈 Análisis de Tendencia LOWESS:")
+        print(f" Análisis de Tendencia LOWESS:")
         print(f"   Valor inicial: {tendencia_inicial:.1f}")
         print(f"   Valor final: {tendencia_final:.1f}")
         print(f"   Cambio relativo: {cambio_relativo:+.1f}%")
     
     def bootstrap_intervalos(self, n_iter=1000, ci=95):
-        """Calcula intervalos de confianza bootstrap."""
-        print(f"\n🔄 ANÁLISIS BOOTSTRAP (n={n_iter})")
+        print(f"\n BOOTSTRAP (n={n_iter})")
         print("=" * 50)
         
         # Bootstrap para mediana general
@@ -317,14 +316,14 @@ class AnalisisNoParametrico:
         upper = np.percentile(medianas, 100 - (100 - ci) / 2)
         mediana_observada = np.median(self.df["total_delitos"])
         
-        print(f"🎯 Mediana General:")
+        print(f" Mediana General:")
         print(f"   Observada: {mediana_observada:.2f}")
         print(f"   IC {ci}%: ({lower:.2f}, {upper:.2f})")
         
         # Bootstrap por alcaldía (top 5)
         top_alcaldias = self.df.groupby('alcaldia_hecho')['total_delitos'].sum().nlargest(5).index
         
-        print(f"\n🎯 Medianas por Alcaldía (Top 5):")
+        print(f"\n Medianas por Alcaldía (Top 5):")
         for alcaldia in top_alcaldias:
             datos = self.df[self.df['alcaldia_hecho'] == alcaldia]['total_delitos']
             if len(datos) >= 10:  # Mínimo para bootstrap confiable
@@ -337,9 +336,6 @@ class AnalisisNoParametrico:
                 print(f"   {alcaldia:15}: {mediana_obs:.1f} IC({lower_alc:.1f}, {upper_alc:.1f})")
     
     def visualizaciones_avanzadas(self):
-        """Crea visualizaciones robustas y informativas."""
-        print("\n🎨 GENERANDO VISUALIZACIONES AVANZADAS")
-        print("=" * 50)
         
         fig = plt.figure(figsize=(20, 12))
         
@@ -417,7 +413,7 @@ class AnalisisNoParametrico:
         alcaldias_unicas = self.df['alcaldia_hecho'].nunique()
         anios_unicas = self.df['anio_inicio'].nunique()
         
-        print(f"\n📊 RESUMEN EJECUTIVO:")
+        print(f"\n RESUMEN EJECUTIVO:")
         print(f"   • Total de homicidios analizados: {total_homicidios:,}")
         print(f"   • Alcaldías incluidas: {alcaldias_unicas}")
         print(f"   • Período analizado: {anios_unicas} años")
@@ -426,18 +422,18 @@ class AnalisisNoParametrico:
         
         # Top y bottom alcaldías
         ranking_total = self.df.groupby('alcaldia_hecho')['total_delitos'].sum().sort_values(ascending=False)
-        print(f"\n🔝 TOP 3 ALCALDÍAS (Total):")
+        print(f"\n TOP 3 ALCALDÍAS (Total):")
         for i, (alcaldia, total) in enumerate(ranking_total.head(3).items(), 1):
             pct = (total/total_homicidios)*100
             print(f"   {i}. {alcaldia}: {total:,} ({pct:.1f}%)")
         
-        print(f"\n🔻 MENOR INCIDENCIA (Total):")
+        print(f"\n MENOR INCIDENCIA (Total):")
         for i, (alcaldia, total) in enumerate(ranking_total.tail(3).items(), 1):
             pct = (total/total_homicidios)*100
             print(f"   {i}. {alcaldia}: {total:,} ({pct:.1f}%)")
         
         # Resultados de pruebas estadísticas
-        print(f"\n🧪 RESULTADOS DE PRUEBAS ESTADÍSTICAS:")
+        print(f"\n RESULTADOS DE PRUEBAS ESTADÍSTICAS:")
         if 'kruskal_wallis' in self.resultados:
             kw = self.resultados['kruskal_wallis']
             print(f"   • Kruskal-Wallis: {'Diferencias significativas' if kw['significativo'] else 'Sin diferencias'} "
@@ -475,19 +471,16 @@ class AnalisisNoParametrico:
 # ================================
 
 if __name__ == "__main__":
-    # Configurar ruta del archivo
     ARCHIVO_DATOS = "/home/adonnay_bazaldua/Documentos/GitHub/Proyectos-Don-Mike/scrips/homicidios po alcaldia.csv"  # Ajustar según tu archivo
     
     try:
-        # Crear instancia del análisis
         analisis = AnalisisNoParametrico(ARCHIVO_DATOS)
         
-        # Ejecutar análisis completo
         analisis.ejecutar_analisis_completo()
         
     except Exception as e:
-        print(f"❌ Error crítico: {str(e)}")
-        print("\n💡 Sugerencia: Verifica que el archivo exista y tenga las columnas correctas:")
+        print(f" Error crítico: {str(e)}")
+        print("\n Sugerencia: Verifica que el archivo exista y tenga las columnas correctas:")
         print("   - anio_inicio")
         print("   - alcaldia_hecho") 
         print("   - total_delitos")
