@@ -84,7 +84,7 @@ class AnalisisNoParametrico:
         
         print("\n Estadísticas por Alcaldía:")
         stats_alcaldia = self.df.groupby('alcaldia_hecho')['total_delitos'].agg([
-            'count', 'mean', 'median', 'std', 'min', 'max', 'sum'
+            'count', 'mean', 'median', 'std', 'min', 'max', 'sum', 'skew'
         ]).round(2)
         print(stats_alcaldia)
         
@@ -123,7 +123,7 @@ class AnalisisNoParametrico:
                       f"Shapiro p={p_sw:.4f}, JB p={p_jb:.4f} "
                       f"{'✅' if p_sw > 0.05 and p_jb > 0.05 else '❌'}")
         
-        # Test de homocedasticidad (Levene)
+        #prueba de homocedasticidad (Levene)
         grupos = [grupo['total_delitos'].values for _, grupo in self.df.groupby('alcaldia_hecho') 
                  if len(grupo) >= 3]
         
