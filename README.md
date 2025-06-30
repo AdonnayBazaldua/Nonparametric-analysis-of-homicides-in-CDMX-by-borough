@@ -23,6 +23,7 @@ y facilitar el acceso a la justicia para toda la población, priorizando
 que todas las personas de todo el mundo vivan libres del miedo a
 cualquier forma de violencia y se sientan seguras en su día a día, sea
 cual sea su origen étnico, religión u orientación sexual (ONU, 2015).
+
 Sin embargo, en el contexto mexicano, estas metas se enfrentan a una
 realidad adversa: la violencia y el crimen organizado continúan siendo
 fenómenos persistentes que afectan significativamente la calidad de vida
@@ -39,8 +40,9 @@ víctimas por cada 100,000 habitantes. Además, la tasa de delitos por
 cada 100 000 habitantes de 18 años y más en 2023 llego a un total de
 33,267 (ENVIPE, 2024), con la Ciudad de México ubicándose muy por encima
 de la media nacional con 52,723 delitos por cada 100,000 habitantes
-ocupando el lugar número 1 en este ramo a nivel nacional. Para efectos
-de la presente investigación se decidió centrar nuestra atención en el
+ocupando el lugar número 1 en este ramo a nivel nacional. 
+
+Para efectos de la presente investigación se decidió centrar nuestra atención en el
 homicidio el cual representa el delito de mayor gravedad al atentar
 directamente contra el derecho fundamental a la vida. En citas de INEGI
 (2015) se tiene que “Mientras en 1990 se reportó una tasa de 16.6 por
@@ -49,8 +51,9 @@ en 2017, la tasa de homicidios alcanzó la cifra de 26 homicidios por
 cada cien mil habitantes, marcando con ello un récord histórico en el
 periodo”, además, México ha sido identificado como uno de los países más
 afectados por el crimen organizado, con cerca de un millón de muertes
-atribuibles a este fenómeno entre 2000 y 2017 (UNODC, 2019). Dada la
-relevancia social del fenómeno, el presente estudio se enfoca en el
+atribuibles a este fenómeno entre 2000 y 2017 (UNODC, 2019). 
+
+Dada la relevancia social del fenómeno, el presente estudio se enfoca en el
 análisis no paramétrico de los homicidios en las alcaldías de la Ciudad
 de México. A través del uso de pruebas de comparación de medias y
 medianas y herramientas de análisis geoespacial, se busca identificar
