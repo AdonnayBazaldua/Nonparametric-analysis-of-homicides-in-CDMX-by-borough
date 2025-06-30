@@ -1,374 +1,323 @@
-# Nonparametric-analysis-of-homicides-in-CDMX-by-borough
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
 
-CONTENIDO
+#Análisis No Paramétrico de homicidios en la Ciudad de México por
+alcaldía 2019-2024. David Adonnay Jiménez Bazaldúa1
 
-Introducción
+División de Ciencias Forestales, Universidad Autónoma Chapingo, México.
+1 Departamento de Estadística Matemática y Computo, UACh.
+[al21116565\@chapingo.mx](mailto:al21116565@chapingo.mx){.email}
 
-Pruebas de Normalidad
+INTRODUCCIÓN
 
-Test de Shapiro-Wilk
+La seguridad se erige como uno de los ejes primordiales y de mayor
+interés en el colectivo mundial pues es un tema de máxima atención en el
+desarrollo organizacional de todos los países del mundo, tanto así que,
+para las Naciones Unidas, el tema de la seguridad, paz y justicia es un
+objetivo rector en la agenda 2030 de los objetivos de desarrollo
+sostenible pues pretende promover sociedades pacíficas e inclusivas, […]
+y facilitar el acceso a la justicia para toda la población, priorizando
+que todas las personas de todo el mundo vivan libres del miedo a
+cualquier forma de violencia y se sientan seguras en su día a día, sea
+cual sea su origen étnico, religión u orientación sexual (ONU, 2015).
+Sin embargo, en el contexto mexicano, estas metas se enfrentan a una
+realidad adversa: la violencia y el crimen organizado continúan siendo
+fenómenos persistentes que afectan significativamente la calidad de vida
+de la población ya que, pese a que el Estado afirma jurídicamente su
+capacidad de competencia en el rubro de la seguridad mediante facultades
+constitucionales (Art. 21 CEPEUM), datos recientes de INEGI (ENVIPE,
+2024) señalan que en 2023, 27.5% de los hogares del país contó con al
+menos un integrante víctima de delito (38.6 millones de hogares
+estimados), cifra que ha prevalecido en los últimos años con récords que
+llegan hasta un 35,6% en 2017 (Osorio, 2023) y con un promedio de 22.75
+millones de víctimas de delito por año desde el 2012 hasta el 2023 con
+una tasa de incidencia delictiva que se ubica (para el 2023) en 23.3 mil
+víctimas por cada 100,000 habitantes. Además, la tasa de delitos por
+cada 100 000 habitantes de 18 años y más en 2023 llego a un total de
+33,267 (ENVIPE, 2024), con la Ciudad de México ubicándose muy por encima
+de la media nacional con 52,723 delitos por cada 100,000 habitantes
+ocupando el lugar número 1 en este ramo a nivel nacional. Para efectos
+de la presente investigación se decidió centrar nuestra atención en el
+homicidio el cual representa el delito de mayor gravedad al atentar
+directamente contra el derecho fundamental a la vida. En citas de INEGI
+(2015) se tiene que “Mientras en 1990 se reportó una tasa de 16.6 por
+cada cien mil habitantes y en 2007 se tuvo un mínimo histórico de 8.1;
+en 2017, la tasa de homicidios alcanzó la cifra de 26 homicidios por
+cada cien mil habitantes, marcando con ello un récord histórico en el
+periodo”, además, México ha sido identificado como uno de los países más
+afectados por el crimen organizado, con cerca de un millón de muertes
+atribuibles a este fenómeno entre 2000 y 2017 (UNODC, 2019). Dada la
+relevancia social del fenómeno, el presente estudio se enfoca en el
+análisis no paramétrico de los homicidios en las alcaldías de la Ciudad
+de México. A través del uso de pruebas de comparación de medias y
+medianas y herramientas de análisis geoespacial, se busca identificar
+dinámicas de concentración, evolución en el tiempo y posibles factores
+asociados al comportamiento de este tipo de delito.
 
-Test de Jarque-Bera
+ÁREA DE ESTUDIO
 
-Prueba de Homocedasticidad
+El área de estudio destinada para la presente investigación fue la
+Ciudad de México, capital del país, con coordenadas Longitud:
+99°21'53.64" W 98°56'25.08" W, Latitud: 19°02'53.52" N 19°35'34.08" N y
+una superficie total de 1,494 kilómetros cuadrados dividida en 16
+demarcaciones territoriales (alcaldías) y 1,812 colonias respectivamente
+con una población de 9,209,944 habitantes reportados en el último censo
+de 2020 (Secretaria de Economía, 2024) y con la mayor importancia
+económica del país siendo el principal aportador al PIB nacional (INEGI,
+2023).
 
-Test de Levene
+Por cuanto a homicidios en la Ciudad de México se tiene registro de 743
+casos para el 2023 (90 mujeres y 653 hombres), con un récord histórico
+de 1,449 casos en 2018 (Osorio, 2022) y con un promedio de 1,152
+homicidios para el periodo de interés considerado de 2016 hasta 2023.
+Respecto a las alcaldías con mayor número de homicidios destaca
+Iztapalapa con un total de 155 (139 hombres y 16 mujeres), seguido de
+Gustavo A. Madero con 121 (102 hombres y 19 mujeres) y Venustiano
+Carranza con 75 (68 hombres y 7 mujeres). Ponderado por población, la
+alcaldía Venustiano Carranza presentó la mayor tasa de homicidios (17
+por 100,000 habitantes), seguido de la alcaldía Miguel Hidalgo (14.4 por
+100,000 habitantes). El lugar de ocurrencia de homicidios tanto para
+mujeres como hombres fue la vía pública con un 22.2% y 41.5%
+respectivamente, mientras que los rangos de edad más afectados por este
+delito fueron 25-29 años para mujeres (14.4%) mientras que para hombres
+fue el rango de edad comprendido por 35-39 años (15.6%).
 
-Pruebas de Comparación No Paramétricas
+ANÁLISIS INICIAL
 
-Test de Kruskal-Wallis
+El presente estudio utilizó datos obtenidos directamente de la Fiscalía
+General de Justicia de la Ciudad de México (FGJ) quien es la unidad
+administrativa encargada de la procuración de justicia en el lugar antes
+mencionado. Respecto a los registros, la base de datos contiene la
+información actualizada de las carpetas de investigación de la Fiscalía
+General de Justicia de la Ciudad de México a partir de enero de 2016
+hasta 2025. Las variables contenidas en la base son, Carpetas de
+investigación de delitos a nivel de calle de la FGJ por Fiscalía,
+Agencia, Unidad de Investigación, fecha de apertura de la carpeta de
+investigación, delito, categoría de delito, calle, colonia, alcaldía,
+coordenadas geográficas del hecho, mes y año.
 
-Prueba U de Mann-Whitney
+La base de datos en cuestión contiene un total de 2,098,743 registros
+concernientes a delitos ocurridos en la Ciudad de México en el periodo
+de interés, sin embargo, una vez que se filtra solo la información
+necesaria tenemos un total de 13,854 homicidios ocurridos1 entre el 01
+de enero de 2016 al 31 de enero del 2025.
 
-Test de Friedman
+Este último dato no incluye a la tentativa de homicidio ni a homicidios
+sin georreferencia (latitud, longitud), ya que de lo contrario se
+dispone de un total de 17,501 registros, dado que la naturaleza de la
+tentativa en particular no puede ser absoluta a un único factor y por
+tanto se decidió desechar al igual que aquellos delitos sin
+georreferencia dado que aumentan el sesgo espacial por tanto se trabajó
+solo con delitos de homicidio materializados. Se realizó una
+distribución espacial de los homicidios seccionando el área geográfica
+por colonia (1812 en total) en donde se encontró que, para el periodo de
+interés, son 1533 las colonias presentan por lo menos un homicidio.
 
-Análisis de Correlaciones No Paramétricas
+![](images/1.png)
 
-Correlación de Spearman
+Fuente: Elaboración propia con datos de la FGJ de la Ciudad de México y
+la demarcación territorial oficial por colonias de la CDMX.
 
-Correlación de Kendall
+Del mismo modo se efectuó el mismo análisis espacial pero ahora
+seccionando por alcaldía como se muestra a continuación.
 
-Análisis de Tendencias
+![](images/2.png)
 
-LOWESS (Locally Weighted Scatterplot Smoothing)
+Esta distribución espacial nos ayuda a identificar hotspots y coldspots
+para identificar zonas de mayor riesgo, sin embargo, es necesario
+desentrañar esta información hasta su forma más comprensible para lo
+cual se reestructuró el mapa anterior por años presentando el cambio
+evolutivo en la cantidad de homicidios y evidenciando la variable
+temporal que es objeto primordial de estudio del presente.
 
-Métodos de Remuestreo
+Respectivamente se encontró que el número de homicidios por año posee la
+forma siguiente: AÑO NUMERO DE HOMICIDIOS 2016 1420 2017 1512 2018 1792
+2019 1805 2020 1609 2021 1361 2022 1337 2023 1377 2024 1543 2025 98
+TOTAL 13,854 METODOLOGÍA
 
-Bootstrap para Intervalos de Confianza
+Se empleó una base de datos depurada compuesta por 144 observaciones
+correspondientes a las tasas anuales de homicidios (por cada 100,000
+habitantes) registradas en cada una de las 16 alcaldías de la Ciudad de
+México, para los años comprendidos entre 2016 y 2024. El
+preprocesamiento incluyó: Validación estructural del dataframe,
+conversión de tasas a valores numéricos consistentes, eliminación de
+valores fuera del rango temporal (2025 ya que al no disponer de mas
+información se percibía como un outlier) y de entradas nulas o mal
+codificadas.
 
-Referencias
+Para determinar la idoneidad del uso de modelos paramétricos, se
+aplicaron pruebas a nivel de grupo (por alcaldía) como lo es
+Shapiro-Wilk y Jarque-Bera, con el objetivo de evaluar la normalidad de
+las tasas anuales de homicidio ademas se incluye prueba de Levene, para
+evaluar la homogeneidad de varianzas entre grupos. El rechazo de la
+homocedasticidad (p \< 0.001) y la evidencia de distribuciones no
+normales en múltiples alcaldías justificaron el uso de pruebas no
+paramétricas.
 
-
-
-#Introducción
-
-El análisis de datos de homicidios presenta desafíos particulares: distribuciones asimétricas, heterogeneidad entre regiones y posibles valores atípicos. Los métodos paramétricos tradicionales (ANOVA, t-test) requieren supuestos de normalidad y homocedasticidad que pueden no cumplirse en estos datos. Por ello, adoptamos un enfoque no paramétrico que ofrece mayor robustez ante estas características.
-
-El pipeline implementa una secuencia lógica: exploración, verificación de supuestos, pruebas estadísticas, y visualización e interpretación de resultados. Este documento explica los fundamentos matemáticos de cada método.
-
-#Pruebas de Normalidad
-
-Test de Shapiro-Wilk
-El test de Shapiro-Wilk evalúa la hipótesis nula de que una muestra proviene de una población normalmente distribuida.
-
-Fundamento Matemático
-El estadístico W se calcula como:
-
-$$W = \frac{(\sum_{i=1}^{n} a_i x_{(i)})^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$
-
-Donde:
-
-  ° $x_{(i)}$ son los valores de la muestra ordenados
-  ° $a_i$ son constantes generadas a partir de los valores esperados, varianzas y covarianzas de las estadísticas de orden de una muestra de tamaño n de una distribución normal
-  ° $\bar{x}$ es la media muestral
-
-
-Interpretación
-
-  W cercano a 1 indica normalidad
-  Valores p < 0.05 rechazan la hipótesis nula de normalidad
-  Potencia: Alta para n < 50, moderada para muestras mayores
-
-Implementación en el Código
-
-
-
-Test de Jarque-Bera
-
-El test de Jarque-Bera evalúa la normalidad basándose en la asimetría y curtosis de la distribución.
-
-Fundamento Matemático
-El estadístico JB se calcula como:
-
-$$JB = \frac{n}{6} \left( S^2 + \frac{(K-3)^2}{4} \right)$$
-
-Donde:
-
-  ° n es el tamaño de la muestra
-  ° S es la asimetría muestral: $S = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^3$
-  ° K es la curtosis muestral: $K = \frac{1}{n} \sum_{i=1}^{n} \left( \frac{x_i - \bar{x}}{\sigma} \right)^4$
-  ° σ es la desviación estándar muestral
-
-
-Bajo la hipótesis nula de normalidad, JB sigue asintóticamente una distribución chi-cuadrado con 2 grados de libertad.
-
-Interpretación
-  Valores p < 0.05 rechazan la hipótesis nula de normalidad
-  Ventaja: Sensible tanto a la asimetría como a la curtosis no normal
-
-
-Implementación en el Código
-
-
-
-Prueba de Homocedasticidad
-
-Test de Levene
-El test de Levene evalúa la igualdad de varianzas entre dos o más grupos.
-
-Fundamento Matemático
-El estadístico W se calcula como:
-
-$$W = \frac{(N-k)}{(k-1)} \frac{\sum_{i=1}^{k} n_i (Z_{i.} - Z_{..})^2}{\sum_{i=1}^{k} \sum_{j=1}^{n_i} (Z_{ij} - Z_{i.})^2}$$
-
-Donde:
-
-  ° $N$ es el número total de observaciones
-  ° $k$ es el número de grupos
-  ° $n_i$ es el número de observaciones en el grupo i
-  ° $Z_{ij} = |x_{ij} - \bar{x}_i|$ (distancia absoluta desde la media del grupo)
-  ° $Z_{i.}$ es la media de $Z_{ij}$ para el grupo i
-  ° $Z_{..}$ es la media global de $Z_{ij}$
-
-
-Interpretación
-  W se distribuye aproximadamente como F con parámetros k-1 y N-k
-  Valores p < 0.05 rechazan la hipótesis nula de homogeneidad de varianzas
-  Ventaja: Más robusto que el test de Bartlett ante desviaciones de normalidad
-
-
-Implementación en el Código
-
+Para evaluar la existencia de diferencias significativas entre las
+distribuciones de las tasas de homicidio en distintas alcaldías, se
+aplicó la prueba de Kruskal-Wallis H, equivalente no paramétrico de
+ANOVA de un factor de manera que esta prueba clasifica todas las
+observaciones según sus rangos globales y compara los rangos medios por
+grupo. El estadístico H se calcula como:
 
 PRUEBAS NO PARAMETRICAS
 
-
 Test de Kruskal-Wallis
 
-El test de Kruskal-Wallis es la alternativa no paramétrica al ANOVA de una vía, evaluando si muestras independientes provienen de la misma distribución.
-
-Fundamento Matemático
-El estadístico H se calcula como:
-
-$$H = \frac{12}{N(N+1)} \sum_{i=1}^{k} \frac{R_i^2}{n_i} - 3(N+1)$$
-
-Donde:
-
-  ° N es el número total de observaciones
-  ° k es el número de grupos
-  ° $n_i$ es el número de observaciones en el grupo i
-  ° $R_i$ es la suma de los rangos en el grupo i
-
-Bajo la hipótesis nula, H se aproxima a una distribución chi-cuadrado con k-1 grados de libertad.
-
-Interpretación
-  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-  No requiere normalidad, pero asume que las distribuciones tienen formas similares
-
-
-Implementación en el Código
-
-
-
-Prueba U de Mann-Whitney
-La prueba U de Mann-Whitney compara dos muestras independientes sin asumir normalidad, utilizada aquí para comparaciones post-hoc después de Kruskal-Wallis.
-
-Fundamento Matemático
-El estadístico U se calcula como:
-
-$$U = n_1 n_2 + \frac{n_1(n_1+1)}{2} - R_1$$
-
-O equivalentemente:
-
-$$U' = n_1 n_2 + \frac{n_2(n_2+1)}{2} - R_2$$
-
-Donde:
-
-  ° $n_1$ y $n_2$ son los tamaños de las dos muestras
-  ° $R_1$ es la suma de rangos para la primera muestra
-  ° $R_2$ es la suma de rangos para la segunda muestra
-
-Interpretación
-  Para muestras grandes, U se aproxima a una distribución normal
-  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-  Ventaja: Detecta diferencias en las ubicaciones (medianas) de las distribuciones
-
-
-Implementación en el Código
-
-
-Test de Friedman
-El test de Friedman es una extensión no paramétrica del ANOVA de medidas repetidas para datos ordinales o que no cumplen normalidad.
-
-Fundamento Matemático
-El estadístico $\chi^2_r$ se calcula como:
-
-$$\chi^2_r = \frac{12}{nk(k+1)} \sum_{j=1}^{k} R_j^2 - 3n(k+1)$$
-
-Donde:
-
-  
-  ° n es el número de bloques (sujetos o, en este caso, años)
-  ° k es el número de tratamientos (alcaldías)
-  ° $R_j$ es la suma de rangos para el tratamiento j
-
-Interpretación
-  Bajo la hipótesis nula, $\chi^2_r$ se distribuye aproximadamente como chi-cuadrado con k-1 grados de libertad
-  Valores p < 0.05 rechazan la hipótesis nula de igualdad de distribuciones
-  Aplicación: Evalúa si hay diferencias en las tendencias temporales entre alcaldías
-
-
-Implementación en el Código
-
-
-
-Análisis de Correlaciones No Paramétricas
-
-Correlación de Spearman
-La correlación de Spearman (ρ) mide la fuerza y dirección de la asociación monotónica entre dos variables, sin asumir linealidad o normalidad.
-
-Fundamento Matemático
-El coeficiente ρ se calcula como:
-
-$$\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}$$
-
-Donde:
-
-  ° $d_i$ es la diferencia entre los rangos correspondientes de las observaciones
-  ° n es el número de pares de observaciones
-
-Interpretación
-  ρ varía entre -1 (correlación negativa perfecta) y 1 (correlación positiva perfecta)
-  ρ = 0 indica ausencia de correlación monotónica
-  Ventaja: Detecta relaciones no lineales pero monotónicas
-
-
-Implementación en el Código
-
-
-
-Correlación de Kendall
-
-La correlación de Kendall (τ) mide la asociación ordinal entre dos variables, basándose en la concordancia y discordancia de pares.
-
-Fundamento Matemático
-El coeficiente τ (tau-b) se calcula como:
-
-$$\tau = \frac{n_c - n_d}{\sqrt{(n_0 - n_1)(n_0 - n_2)}}$$
-
-Donde:
-
-  ° $n_c$ es el número de pares concordantes
-  ° $n_d$ es el número de pares discordantes
-  ° $n_0 = n(n-1)/2$
-  ° $n_1$ es el número de pares empatados en la primera variable
-  ° $n_2$ es el número de pares empatados en la segunda variable
-
-Interpretación
-  τ varía entre -1 (inversamente ordenados) y 1 (igualmente ordenados)
-  τ = 0 indica independencia
-  Ventaja: Menos sensible a valores atípicos que Spearman
-
-
-Implementación en el Código
-
-
-
-Análisis de Tendencias
-
-LOWESS (Locally Weighted Scatterplot Smoothing)
-LOWESS es una técnica de regresión no paramétrica que ajusta modelos simples a subconjuntos locales de datos.
-
-Fundamento Matemático
-Para cada punto $(x_i, y_i)$, LOWESS:
-
-Selecciona los k puntos más cercanos a $x_i$ (donde k = frac * n)
-Asigna pesos $w_j$ a cada punto usando la función tricúbica: $$w_j = \left(1 - \left|\frac{x_j - x_i}{d_m}\right|^3\right)^3$$ donde $d_m$ es la distancia del punto más lejano en el vecindario
-Ajusta una regresión ponderada usando los pesos $w_j$
-El valor ajustado $\hat{y}_i$ es el valor predicho por la regresión en $x_i$
-
-Interpretación
-  Captura patrones no lineales y tendencias locales
-  El parámetro frac controla el grado de suavizado (más alto = más suave)
-Ventaja: Robustez ante valores atípicos y flexibilidad para modelar relaciones complejas
-
-
-Implementación en el Código
-
-
-Métodos de Remuestreo
-
-Bootstrap para Intervalos de Confianza
-El bootstrap es una técnica de remuestreo que permite estimar la distribución muestral de un estadístico sin asumir normalidad.
-
-Fundamento Matemático
-Para estimar el intervalo de confianza de un estadístico θ:
-
-Generar B muestras bootstrap (remuestreo con reemplazo de la muestra original)
-Calcular el estadístico θ* para cada muestra bootstrap
-Construir el intervalo de confianza usando los percentiles de la distribución de θ*:
-Límite inferior: percentil α/2 de θ*
-Límite superior: percentil 1-α/2 de θ*
-donde α = 1 - nivel de confianza (ej. α = 0.05 para IC 95%)
-
-Interpretación
-  Proporciona estimaciones robustas de la incertidumbre
-  No requiere supuestos distribucionales
-Ventaja: Aplicable a cualquier estadístico, incluso con muestras pequeñas
-
-
-Implementación en el Código
-
-
-Justificación del Enfoque No Paramétrico
-
-La elección de métodos no paramétricos en este análisis se basa en una verificación rigurosa de supuestos:
-
-Normalidad: Las pruebas de Shapiro-Wilk y Jarque-Bera evalúan si los datos de homicidios por alcaldía siguen una distribución normal.
-
-Homocedasticidad: El test de Levene evalúa si las varianzas son homogéneas entre alcaldías.
-
-Si estos supuestos no se cumplen (especialmente la homocedasticidad, que resultó significativa con p < 0.05), los métodos no paramétricos ofrecen ventajas importantes:
-
-Mayor robustez ante valores atípicos
-No requieren normalidad
-Válidos para muestras pequeñas
-Aplicables a datos ordinales o con asimetrías
-El pipeline implementa un proceso completo: desde la verificación de supuestos hasta pruebas avanzadas de comparación, correlación y tendencias, proporcionando un análisis robusto y estadísticamente riguroso de los patrones de homicidios en la CDMX.
-
-Referencias
-Conover, W.J. (1999). Practical Nonparametric Statistics. Wiley, 3rd edition.
-Hollander, M., Wolfe, D.A., & Chicken, E. (2013). Nonparametric Statistical Methods. Wiley, 3rd edition.
-Cleveland, W.S. (1979). "Robust Locally Weighted Regression and Smoothing Scatterplots". Journal of the American Statistical Association, 74(368), 829-836.
-Efron, B., & Tibshirani, R.J. (1993). An Introduction to the Bootstrap. Chapman & Hall/CRC.
-Shapiro, S.S., & Wilk, M.B. (1965). "An analysis of variance test for normality (complete samples)". Biometrika, 52(3/4), 591-611.
-Jarque, C.M., & Bera, A.K. (1987). "A test for normality of observations and regression residuals". International Statistical Review, 55(2), 163-172.
-Kruskal, W.H., & Wallis, W.A. (1952). "Use of ranks in one-criterion variance analysis". Journal of the American Statistical Association, 47(260), 583-621.
-Friedman, M. (1937). "The use of ranks to avoid the assumption of normality implicit in the analysis of variance". Journal of the American Statistical Association, 32(200), 675-701.
-
-
-Datos y Alcance
-
-Se analizaron 144 observaciones (16 alcaldías × 9 años) con datos de homicidios en CDMX entre 2016-2024.
-Se eliminaron 16 registros que estaban fuera del rango temporal establecido.
-El rango de homicidios por alcaldía-año varía significativamente: desde 11 hasta 403 casos.
-
-Distribución Geográfica
-Alta concentración geográfica: Tres alcaldías acumulan casi el 45% del total de homicidios:
-Iztapalapa (21.1%)
-Gustavo A. Madero (14.1%)
-Cuauhtémoc (9.5%)
-Baja incidencia: Tres alcaldías representan menos del 5% del total:
-Cuajimalpa (1.8%)
-Magdalena Contreras (1.5%)
-Milpa Alta (1.4%)
-
-Análisis Estadístico
-Normalidad: Sorprendentemente, todas las alcaldías muestran distribuciones normales (p>0.05 en pruebas Shapiro-Wilk y Jarque-Bera).
-Homocedasticidad: El test de Levene indica que no hay homogeneidad de varianzas (p<0.001), justificando el uso de métodos no paramétricos.
-Diferencias significativas: La prueba Kruskal-Wallis confirma diferencias estadísticamente significativas entre alcaldías (H=132.52, p<0.001).
-Comparaciones múltiples: De 120 comparaciones posibles entre alcaldías, 98 (82%) mostraron diferencias significativas.
-Tendencias Temporales
-Correlación temporal: No existe correlación significativa entre año y número de homicidios (ρ=-0.012, p=0.886), indicando que no hay una tendencia lineal clara al alza o a la baja durante el periodo analizado.
-Tendencia LOWESS: Muestra un cambio relativo positivo de +8.7% entre el inicio (2016) y final (2024) del periodo, sugiriendo un ligero aumento general a pesar de fluctuaciones.
-Prueba de Friedman: Confirma diferencias significativas en tendencias temporales entre alcaldías (p<0.001), indicando que cada alcaldía sigue su propio patrón temporal.
-
-Años críticos
-Los años 2018 y 2019 registraron los mayores promedios de homicidios (111.94 y 112.81 respectivamente).
-2022 registró el promedio más bajo (83.56), seguido de 2021 (85.06).
-
-Conclusiones Generales
-Heterogeneidad geográfica: Existen diferencias estadísticamente significativas entre alcaldías, con una concentración marcada en ciertas zonas.
-Patrón temporal complejo: No hay una tendencia lineal simple, sino patrones diferenciados por alcaldía con fluctuaciones a lo largo del periodo.
-Estabilidad reciente con repunte: Tras una disminución en 2021-2022, los datos de 2024 muestran un repunte (96.44 homicidios promedio).
-Disparidad de riesgo: La mediana de homicidios en Iztapalapa (324) es casi 15 veces mayor que en Milpa Alta (23).
+El test de Kruskal-Wallis es la alternativa no paramétrica al ANOVA de
+una vía, evaluando si muestras independientes provienen de la misma
+distribución.
+
+Fundamento Matemático El estadístico H se calcula como:
+
+$$H = \frac{12}{N(N+1)} \sum_{i=1}^{k} n_i(\bar{R_i} - \bar{R})$$
+
+Donde N es el número total de observaciones, k es el número de grupos
+(alcaldías), ni es el tamaño de cada grupo, Ri es el rango medio del
+grupo y R el rango medio global. La prueba arrojó un valor de H =
+97.5493 con df = 15, y un p-value menor a 0.000001, indicando
+diferencias altamente significativas. Además, se estimó el tamaño del
+efecto mediante el valor eta-cuadrado (η²) de Kruskal-Wallis como una
+medida estadística que indica qué proporción de la varianza total en los
+datos se debe a las diferencias entre grupos, en donde se ponderó un
+efecto η² \< 0.01 como despreciable, η² \< 0.06 como pequeño, η² \< 0.14
+como mediano y finalmente un valor η² \> 0.14 como grande. El
+estadístico η² se calcula como:
+
+$$\eta^2 = \dfrac{H -k + 1}{N - k}$$
+
+Obteniéndose η² = 0.6449, lo que indica un efecto de magnitud grande
+Para identificar las alcaldías responsables de las diferencias
+encontradas, se realizaron pruebas de Mann–Whitney U por pares de
+alcaldías (total de 120 comparaciones). Se aplicó corrección de
+Bonferroni para controlar el error tipo I:
+
+$$\alpha_{ajustado} = \dfrac{\alpha}{m} = \dfrac{0.05}{120} \approx 0.000417$$
+
+Se reportaron 28 comparaciones significativas (74 antes de aplicar la
+corrección Bonferroni), es decir un 23.33%. Para cada par, se calculó el
+tamaño del efecto mediante:
+
+$$r = \dfrac{Z}{\sqrt{n_1 + n_2}}$$
+
+donde Z es el valor normalizado de la U obtenida. Valores se
+consideraron de gran magnitud según Cohen. Dado que las tasas de
+homicidio están organizadas temporalmente (por año), se aplicó la prueba
+de Friedman la cual es adecuada para datos emparejados longitudinales
+como en este caso ya que se disponen de 9 años para cada alcaldia. La
+prueba de Friedman es descrita por:
+
+$$X^2_F = \dfrac{12}{nk(k + 1)} \sum_j R^2_j - 3n(k+1)$$
+
+Donde el numero de bloques n = 16 alcaldias y k = 9 años. Bajo la
+hipótesis nula donde NO hay diferencia significativa entre los años, la
+prueba reveló diferencias significativas en la distribución temporal de
+homicidios entre alcaldías con un valor X² = 103.7647, sugiriendo
+patrones divergentes de comportamiento a lo largo del tiempo. Para
+detectar tendencias generales en el tiempo, se calcularon los
+coeficientes de correlación de: Spearman (ρ = -0.1708, p = 0.040660) y
+Kendall (τ = -0.1156, p = 0.050244). Ambos resultados indicaron
+correlaciones temporales muy débiles y no significativas, lo cual
+sugiere una ausencia de tendencia temporal global uniforme en las tasas
+de homicidio ademas se encuentra ligera disminución en tasas de
+homicidios para el periodo de interés. Finalmente la tasa (promedio) de
+homicidios por cada 100,000 personas por alcaldía en la ciudad de México
+presenta la siguiente comparativa.
+
+![](images/3.png)
+
+Esta metodología garantiza la solidez estadística del análisis,
+priorizando la validez de las inferencias incluso ante distribuciones no
+normales, alta heterogeneidad entre grupos y presencia de valores
+atípicos. El enfoque es extensible a otros delitos, y sienta una base
+formal para atención prioritaria en materia de seguridad en el lugar de
+estudio antes referido.
+
+BIBLIOGRAFIA
+
+Gobierno de la Ciudad de México, Base de datos sobre víctimas de los
+delitos en las carpetas de investigación de la Fiscalía General de
+Justicia (FGJ) de la Ciudad de México. Recuperado de
+<https://datos.cdmx.gob.mx/dataset/carpetas-de-investigacion-fgj-de-la-ciudad-de-mexico>
+
+Organización de las Naciones Unidas, 2015. Proyecto de resolución
+remitido a la Cumbre de las Naciones Unidas para la aprobación de la
+Agenda para el Desarrollo de 2015 por la Asamblea General en su
+sexagésimo noveno periodo de sesiones. Nueva York
+
+United Nacion Office on Drugs and Crime, 2019. Global Study on Homicide.
+United Nacions, Vienna.
+
+Constitución Política de los Estados Unidos Mexicanos (CPEUM), publicada
+en el Diario Oficial de la Federación el 5 de febrero de 1917. México.
+
+Código Nacional de Procedimientos Penales (CNPP), publicado en el Diario
+Oficial de la Federación el 5 de marzo de 2014. México.
+
+Instituto Nacional de Estadística y Geografía, 2015. PATRONES Y
+TENDENCIAS DE LOS HOMICIDIOS EN MÉXICO. En números, documentos de
+análisis y estadísticas, Vol. 1, Núm. 15, México.
+
+Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública, Datos
+abiertos de incidencia delictiva,
+<http://www.informe-seguridad.cns.gob.mx/>
+
+Instituto Nacional de Estadística y Geografía, 2024, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2024, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2024/>
+
+Instituto Nacional de Estadística y Geografía, 2023, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2023, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2023/>
+
+Instituto Nacional de Estadística y Geografía, 2022, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2022, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2022/>
+
+Instituto Nacional de Estadística y Geografía, 2021, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2021, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2021/>
+
+Instituto Nacional de Estadística y Geografía, 2020, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2020, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2020/>
+
+Instituto Nacional de Estadística y Geografía, 2019, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2019, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2019/>
+
+Instituto Nacional de Estadística y Geografía, 2018, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2018, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2018/>
+
+Instituto Nacional de Estadística y Geografía, 2017, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2017, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2017/>
+
+Instituto Nacional de Estadística y Geografía, 2016, Encuesta Nacional
+de Victimización y Percepción sobre Seguridad Pública 2016, principales
+resultados. Recuperado de
+<https://www.inegi.org.mx/programas/envipe/2016/>
+
+Instituto Nacional de Estadística y Geografía, 2023. Cuéntame de México/
+Ciudad de México. Rescata en abril de 2025 en
+<https://cuentame.inegi.org.mx/descubre/conoce_tu_estado/tarjeta.html?estado=09>
+
+Osorio R. Monica D. 2023. Atlas de Homicidios: México 2022. México Unido
+Contra la Delincuencia. México.
+
+Secretaria de Economía, 2024. Data México, Ciudad de México, rescatado
+en abril de 2025 en
+<https://www.economia.gob.mx/datamexico/es/profile/geo/ciudad-de-mexico-cx>
